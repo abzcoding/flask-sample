@@ -148,15 +148,13 @@ The `GET` request that returns the authentication token is not supposed to be ca
 Rate Limiting
 -------------
 
-This API supports rate limiting as an optional feature. To use rate limiting the application must have access to a Redis server running on the same host and listening on the defa
-ult port.
+This API supports rate limiting as an optional feature. To use rate limiting the application must have access to a Redis server running on the same host and listening on the default port.
 
 To enable rate limiting change the following line in `config.py`:
 ```
 USE_RATE_LIMITS = True
 ```
-The default configuration limits clients to 5 API calls per 15 second interval. When a client goes over the limit a response with the 429 status code is returned immediately, wit
-hout carrying out the request. The limit resets as soon as the current 15 second period ends.
+The default configuration limits clients to 5 API calls per 15 second interval. When a client goes over the limit a response with the 429 status code is returned immediately, without carrying out the request. The limit resets as soon as the current 15 second period ends.
 
 When rate limiting is enabled all responses return three additional headers:
 ```
