@@ -4,6 +4,7 @@ from .test_client import TestClient
 from api.app import create_app
 from api.models import db, User
 from api.errors import ValidationError
+from api.helpers import convert_url
 
 
 class TestTokenAPI(unittest.TestCase):
@@ -190,6 +191,11 @@ class TestTokenAPI(unittest.TestCase):
     rv, json = self.client.get(one_url, headers={
       'If-None-Match': one_etag})
     self.assertTrue(rv.status_code == 200)
+
+  def test_helpers(self):
+    self.assertEquals(convert_url('www.google.com'), 'http://www.google.com')
+    with self.assertRaises(ValidationError):
+      convert_url('bad url')
 
   def test_todos(self):
     # get collection
