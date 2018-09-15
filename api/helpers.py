@@ -2,6 +2,19 @@ from flask.globals import _app_ctx_stack, _request_ctx_stack
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import NotFound
 from .errors import ValidationError
+import re
+
+
+url_regex = re.compile(
+    r'^(?:http|ftp)s?://|'  # http:// or https://
+    r'(?:[^:@]+?:[^:@]*?@|)'  # basic auth
+    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
+    r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+    r'localhost|'  # localhost...
+    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
+    r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
+    r'(?::\d+)?'  # optional port
+    r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
 def match_url(url, method=None):
@@ -33,3 +46,12 @@ def args_from_url(url, endpoint):
     if r[0] != endpoint:
         return NotFound()
     return r[1]
+
+
+def convert_url(url):
+  if url_regex.search(url):
+    if 'http' not in url:
+      url = 'http://'+url
+  else:
+    raise ValidationError('Invalid url: bad type ' + str(url))
+  return url
