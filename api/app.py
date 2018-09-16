@@ -1,6 +1,8 @@
 import os
 from flask import Flask
+from celery import Celery
 from .models import db
+from .tasks import celery
 
 
 def create_app(config_module=None):
@@ -8,6 +10,7 @@ def create_app(config_module=None):
   app.config.from_object(config_module or
                          os.environ.get('FLASK_CONFIG') or
                          'config')
+  celery.config_from_object(app.config)
 
   db.init_app(app)
 

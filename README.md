@@ -23,6 +23,17 @@ virtualenv venv
 pip install -r requirements.txt
 ```
 
+Running
+-------
+The commands below will run the project in macos:
+```bash
+python manage.py createdb                                # create initial DB
+brew services run redis                                  # make sure redis is running
+python manage.py runserver                               # run flask application
+celery -A celery_worker:celery worker -E --loglevel=INFO # run celery worker
+celery -A celery_worker:celery beat --loglevel=INFO      # run celery task scheduler
+```
+
 Unit Tests
 ----------
 

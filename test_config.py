@@ -4,3 +4,5 @@ SQLALCHEMY_DATABASE_URI = 'sqlite://'
 USE_TOKEN_AUTH = True
 USE_RATE_LIMITS = False
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+BROKER_URL = 'memory://'
