@@ -16,8 +16,8 @@ class TestClient():
     headers = headers.copy()
     if self.auth is not None:
       headers['Authorization'] = self.auth
-      headers['Content-Type'] = 'application/json'
-      headers['Accept'] = 'application/json'
+    headers['Content-Type'] = 'application/json'
+    headers['Accept'] = 'application/json'
     if data:
       data = json.dumps(data)
 
