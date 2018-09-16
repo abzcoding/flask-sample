@@ -32,7 +32,11 @@ class TestClient():
       except HTTPException as e:
         rv = self.app.handle_user_exception(e)
 
-    return rv, json.loads(rv.data.decode('utf-8'))
+    try:
+      json_data = json.loads(rv.data.decode('utf-8'))
+    except json.decoder.JSONDecodeError:
+      json_data = None
+    return rv, json_data
 
   def get(self, url, headers={}):
     return self.send(url, 'GET', headers=headers)
@@ -45,3 +49,6 @@ class TestClient():
 
   def delete(self, url, headers={}):
     return self.send(url, 'DELETE', headers=headers)
+
+  def head(self, url, headers={}):
+    return self.send(url, 'HEAD', headers=headers)
