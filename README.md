@@ -11,6 +11,7 @@ To install and run this application you need:
 - Python 2.7 or 3.3+
 - virtualenv
 - git
+- redis
 
 Installation
 ------------
