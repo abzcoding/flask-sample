@@ -3,6 +3,7 @@ from datetime import datetime
 
 celery = Celery()
 
+
 @celery.task
 def sample():
-  print(datetime.utcnow())
+  return "something"
