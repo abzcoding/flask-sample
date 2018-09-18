@@ -36,7 +36,7 @@ def test():
   from subprocess import call
   call(['nosetests', '-v',
         '--with-coverage', '--cover-package=api', '--cover-branches',
-        '--cover-erase', '--cover-html', '--cover-html-dir=cover'])
+        '--cover-erase', '--cover-html', '--cover-xml', '--cover-html-dir=cover'])
 
 
 if __name__ == '__main__':
