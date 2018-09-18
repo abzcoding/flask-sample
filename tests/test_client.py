@@ -34,6 +34,8 @@ class TestClient():
 
     try:
       json_data = json.loads(rv.data.decode('utf-8'))
+    except AttributeError:
+      json_data = None
     except json.decoder.JSONDecodeError:
       json_data = None
     return rv, json_data

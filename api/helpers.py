@@ -17,7 +17,7 @@ url_regex = re.compile(
   r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
-def match_url(url, method=None):
+def match_url(url, method=None):  # pragma: no cover
   appctx = _app_ctx_stack.top
   reqctx = _request_ctx_stack.top
   if appctx is None:
@@ -40,7 +40,7 @@ def match_url(url, method=None):
   return url_adapter.match(parsed_url.path, method)
 
 
-def args_from_url(url, endpoint):
+def args_from_url(url, endpoint):  # pragma: no cover
   r = match_url(url, 'GET')
   if r[0] != endpoint:
     return NotFound()

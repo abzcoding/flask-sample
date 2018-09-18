@@ -17,8 +17,7 @@ class TestTokenAPI(unittest.TestCase):
     self.ctx.push()
     db.drop_all()
     db.create_all()
-    u = User(username=self.default_username,
-             password=self.default_password)
+    u = User(username=self.default_username, password=self.default_password)
     db.session.add(u)
     db.session.commit()
     self.client = TestClient(self.app, u.generate_auth_token(), '')
@@ -59,31 +58,48 @@ class TestTokenAPI(unittest.TestCase):
     self.assertTrue('X-RateLimit-Remaining' in rv.headers)
     self.assertTrue('X-RateLimit-Limit' in rv.headers)
     self.assertTrue('X-RateLimit-Reset' in rv.headers)
-    self.assertTrue(int(rv.headers['X-RateLimit-Limit']) == int(rv.headers['X-RateLimit-Remaining']) + 1)
+    self.assertTrue(
+        int(rv.headers['X-RateLimit-Limit']) ==
+        int(rv.headers['X-RateLimit-Remaining']) + 1)
     while int(rv.headers['X-RateLimit-Remaining']) > 0:
       rv, json = self.client.get('/api/v1.0/todos/')
     self.assertTrue(rv.status_code == 429)
 
   def test_pagination(self):
     # create several students
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'one', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'one',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     one_url = rv.headers['Location']
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'two', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'two',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     two_url = rv.headers['Location']
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'three', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'three',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     three_url = rv.headers['Location']
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'four', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'four',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     four_url = rv.headers['Location']
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'five', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'five',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     five_url = rv.headers['Location']
 
@@ -125,8 +141,7 @@ class TestTokenAPI(unittest.TestCase):
     self.assertTrue(len(json['urls']) == 1)
 
   def test_cache_control(self):
-    client = TestClient(self.app, self.default_username,
-                        self.default_password)
+    client = TestClient(self.app, self.default_username, self.default_password)
     rv, json = client.get('/auth/request-token')
     self.assertTrue(rv.status_code == 200)
     self.assertTrue('Cache-Control' in rv.headers)
@@ -138,12 +153,18 @@ class TestTokenAPI(unittest.TestCase):
 
   def test_etag(self):
     # create two todos
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'one', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'one',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     one_url = rv.headers['Location']
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'two', 'task': 'sth'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'two',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 201)
     two_url = rv.headers['Location']
 
@@ -156,40 +177,38 @@ class TestTokenAPI(unittest.TestCase):
     two_etag = rv.headers['ETag']
 
     # send If-None-Match header
-    rv, json = self.client.get(one_url, headers={
-        'If-None-Match': one_etag})
+    rv, json = self.client.get(one_url, headers={'If-None-Match': one_etag})
     self.assertTrue(rv.status_code == 304)
-    rv, json = self.client.get(one_url, headers={
-        'If-None-Match': one_etag + ', ' + two_etag})
+    rv, json = self.client.get(
+        one_url, headers={'If-None-Match': one_etag + ', ' + two_etag})
     self.assertTrue(rv.status_code == 304)
-    rv, json = self.client.get(one_url, headers={
-        'If-None-Match': two_etag})
+    rv, json = self.client.get(one_url, headers={'If-None-Match': two_etag})
     self.assertTrue(rv.status_code == 200)
-    rv, json = self.client.get(one_url, headers={
-        'If-None-Match': two_etag + ', *'})
+    rv, json = self.client.get(
+        one_url, headers={'If-None-Match': two_etag + ', *'})
     self.assertTrue(rv.status_code == 304)
 
     # send If-Match header
-    rv, json = self.client.get(one_url, headers={
-        'If-Match': one_etag})
+    rv, json = self.client.get(one_url, headers={'If-Match': one_etag})
     self.assertTrue(rv.status_code == 200)
-    rv, json = self.client.get(one_url, headers={
-        'If-Match': one_etag + ', ' + two_etag})
+    rv, json = self.client.get(
+        one_url, headers={'If-Match': one_etag + ', ' + two_etag})
     self.assertTrue(rv.status_code == 200)
-    rv, json = self.client.get(one_url, headers={
-        'If-Match': two_etag})
+    rv, json = self.client.get(one_url, headers={'If-Match': two_etag})
     self.assertTrue(rv.status_code == 412)
-    rv, json = self.client.get(one_url, headers={
-        'If-Match': '*'})
+    rv, json = self.client.get(one_url, headers={'If-Match': '*'})
     self.assertTrue(rv.status_code == 200)
 
     # change a resource
-    rv, json = self.client.put(one_url, data={'name': 'not-one', 'task': 'sth'})
+    rv, json = self.client.put(
+        one_url, data={
+            'name': 'not-one',
+            'task': 'sth'
+        })
     self.assertTrue(rv.status_code == 200)
 
     # use stale etag
-    rv, json = self.client.get(one_url, headers={
-      'If-None-Match': one_etag})
+    rv, json = self.client.get(one_url, headers={'If-None-Match': one_etag})
     self.assertTrue(rv.status_code == 200)
 
   def test_helpers(self):
@@ -204,8 +223,11 @@ class TestTokenAPI(unittest.TestCase):
     self.assertTrue(json['urls'] == [])
 
     # create new
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'buy', 'task': 'buy groceries'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/', data={
+            'name': 'buy',
+            'task': 'buy groceries'
+        })
     self.assertTrue(rv.status_code == 201)
     buy_url = rv.headers['Location']
 
@@ -216,8 +238,12 @@ class TestTokenAPI(unittest.TestCase):
     self.assertTrue(json['url'] == buy_url)
 
     # create new
-    rv, json = self.client.post('/api/v1.0/todos/',
-                                data={'name': 'clean', 'task': 'clean dining room'})
+    rv, json = self.client.post(
+        '/api/v1.0/todos/',
+        data={
+            'name': 'clean',
+            'task': 'clean dining room'
+        })
     self.assertTrue(rv.status_code == 201)
     clean_url = rv.headers['Location']
 
@@ -236,8 +262,11 @@ class TestTokenAPI(unittest.TestCase):
                                        data={'not-name': 'clean'}))
 
     # modify
-    rv, json = self.client.put(clean_url,
-                               data={'name': 'clean', 'task': 'clean bathroom'})
+    rv, json = self.client.put(
+        clean_url, data={
+            'name': 'clean',
+            'task': 'clean bathroom'
+        })
     self.assertTrue(rv.status_code == 200)
 
     # get

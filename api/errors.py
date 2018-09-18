@@ -25,14 +25,14 @@ def unauthorized(message):
   return response
 
 
-def forbidden(message):
+def forbidden(message):  # pragma: no cover
   response = jsonify({'status': 403, 'error': 'forbidden',
                       'message': message})
   response.status_code = 403
   return response
 
 
-def not_found(message):
+def not_found(message):  # pragma: no cover
   response = jsonify({'status': 404, 'error': 'not found',
                       'message': message})
   response.status_code = 404
