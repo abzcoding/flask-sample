@@ -1,9 +1,8 @@
-
-[![Build Status](https://travis-ci.org/abzcoding/flask-sample.svg?branch=master)](https://travis-ci.org/abzcoding/flask-sample)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/abzcoding/flask-sample/blob/master/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/abzcoding/flask-sample/badge.svg?branch=master)](https://coveralls.io/github/abzcoding/flask-sample?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/abzcoding/flask-sample/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/abzcoding/flask-sample/?branch=master)
+[![Build Status](https://travis-ci.org/abzcoding/flask-sample.svg?branch=master)](https://travis-ci.org/abzcoding/flask-sample)
 [![Code Climate](https://codeclimate.com/github/abzcoding/flask-sample/badges/gpa.svg)](https://codeclimate.com/github/abzcoding/flask-sample)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/4765cd8e257c21e349e1/test_coverage)](https://codeclimate.com/github/abzcoding/flask-sample/test_coverage)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/abzcoding/flask-sample/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/abzcoding/flask-sample/?branch=master)
 
 
 
