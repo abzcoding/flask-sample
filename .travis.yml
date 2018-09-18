@@ -8,5 +8,4 @@ script:
   - python manage.py test
 after_success:
   - coveralls
-  - bash <(curl -s https://codecov.io/bash)
-  - codeclimate-test-reporter
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
