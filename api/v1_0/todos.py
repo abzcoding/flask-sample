@@ -1,6 +1,6 @@
 from flask import request
 from ..models import db, Todo
-from ..decorators import json, paginate, etag, rate_limit
+from ..decorators import json, paginate, etag, rate_limit, hit_count
 from ..auth import auth
 from . import api
 
@@ -16,6 +16,7 @@ def get_todos():
 
 @api.route('/todos/<int:id>', methods=['GET'])
 @rate_limit(limit=5, per=15)
+@hit_count
 @etag
 @json
 def get_todo(id):
@@ -32,8 +33,8 @@ def new_todo():
   return {}, 201, {'Location': todo.get_url()}
 
 
-@auth.login_required
 @api.route('/todos/<int:id>', methods=['PUT'])
+@auth.login_required
 @json
 def edit_todo(id):
   todo = Todo.query.get_or_404(id)
@@ -43,8 +44,8 @@ def edit_todo(id):
   return {}
 
 
-@auth.login_required
 @api.route('/todos/<int:id>', methods=['DELETE'])
+@auth.login_required
 @json
 def delete_todo(id):
   todo = Todo.query.get_or_404(id)

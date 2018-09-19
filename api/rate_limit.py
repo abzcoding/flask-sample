@@ -5,7 +5,7 @@ from flask import current_app
 redis = None
 
 
-class FakeRedis(object):
+class FakeRedis:
   """Redis mock used for testing."""
   def __init__(self):
     self.v = {}
@@ -27,7 +27,7 @@ class FakeRedis(object):
     return [self.v[self.last_key]]
 
 
-class RateLimit(object):
+class RateLimit:
   expiration_window = 10
 
   def __init__(self, key_prefix, limit, per):
@@ -35,7 +35,7 @@ class RateLimit(object):
     if redis is None and current_app.config['USE_RATE_LIMITS']:
       if current_app.config['TESTING']:
         redis = FakeRedis()
-      else:
+      else:  # pragma: no cover
         redis = Redis()
 
     self.reset = (int(time.time()) // per) * per + per
