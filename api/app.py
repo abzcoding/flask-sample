@@ -1,6 +1,5 @@
 import os
 from flask import Flask
-from celery import Celery
 from .models import db
 from .tasks import celery
 
