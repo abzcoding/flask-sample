@@ -36,7 +36,10 @@ class RateLimit:
       if current_app.config['TESTING']:
         redis = FakeRedis()
       else:  # pragma: no cover
-        redis = Redis()
+        redis_host = current_app.config.get("REDIS_HOST", "localhost")
+        redis_port = current_app.config.get("REDIS_PORT", 6379)
+        redis_db = current_app.config.get("REDIS_DB", 0)
+        redis = Redis(host=redis_host, port=redis_port, db=redis_db)
 
     self.reset = (int(time.time()) // per) * per + per
     self.key = key_prefix + str(self.reset)

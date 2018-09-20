@@ -37,11 +37,15 @@ def hit_count(f):
       redis = FakeRedis()
     else:  # pragma: no cover
       from redis import Redis
-      redis = Redis()
+      redis_host = current_app.config.get("REDIS_HOST", "localhost")
+      redis_port = current_app.config.get("REDIS_PORT", 6379)
+      redis_db = current_app.config.get("REDIS_DB", 0)
+      redis = Redis(host=redis_host, port=redis_port, db=redis_db)
 
     key = 'hit-count%s' % (request.path)
     redis.incr(key)
     return rv
+
   return wrapped
 
 
