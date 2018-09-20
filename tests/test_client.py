@@ -12,9 +12,7 @@ class TestClient():
       self.auth = 'Basic ' + b64encode(
           (username + ':' + password).encode('utf-8')).decode('utf-8')
 
-  def send(self, url, method='GET', data=None, headers=None):
-    if headers is None:
-      headers = {}
+  def send(self, url, method='GET', data=None, headers={}):
     headers = headers.copy()
     if self.auth is not None:
       headers['Authorization'] = self.auth
@@ -42,27 +40,17 @@ class TestClient():
       json_data = None
     return rv, json_data
 
-  def get(self, url, headers=None):
-    if headers is None:
-      headers = {}
+  def get(self, url, headers={}):
     return self.send(url, 'GET', headers=headers)
 
-  def post(self, url, data, headers=None):
-    if headers is None:
-      headers = {}
+  def post(self, url, data, headers={}):
     return self.send(url, 'POST', data, headers=headers)
 
-  def put(self, url, data, headers=None):
-    if headers is None:
-      headers = {}
+  def put(self, url, data, headers={}):
     return self.send(url, 'PUT', data, headers=headers)
 
-  def delete(self, url, headers=None):
-    if headers is None:
-      headers = {}
+  def delete(self, url, headers={}):
     return self.send(url, 'DELETE', headers=headers)
 
-  def head(self, url, headers=None):
-    if headers is None:
-      headers = {}
+  def head(self, url, headers={}):
     return self.send(url, 'HEAD', headers=headers)
