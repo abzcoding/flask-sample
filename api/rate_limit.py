@@ -20,7 +20,7 @@ class FakeRedis:
     self.v[key] += 1
     self.last_key = key
 
-  def expireat(self, key, time):
+  def expireat(self, key, exp_time):
     pass
 
   def execute(self):

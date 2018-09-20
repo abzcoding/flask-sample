@@ -31,7 +31,7 @@ class TestTokenAPI(unittest.TestCase):
     self.app.config['USE_TOKEN_AUTH'] = False
     good_client = TestClient(self.app, self.default_username,
                              self.default_password)
-    rv, json = good_client.get('/api/v1.0/todos/')
+    rv, _ = good_client.get('/api/v1.0/todos/')
     self.assertTrue(rv.status_code == 200)
 
     self.app.config['USE_TOKEN_AUTH'] = True
@@ -42,7 +42,7 @@ class TestTokenAPI(unittest.TestCase):
 
   def test_bad_auth(self):
     bad_client = TestClient(self.app, 'abc', 'def')
-    rv, json = bad_client.get('/api/v1.0/todos/')
+    rv, _ = bad_client.get('/api/v1.0/todos/')
     self.assertTrue(rv.status_code == 401)
 
     self.app.config['USE_TOKEN_AUTH'] = True
@@ -53,7 +53,7 @@ class TestTokenAPI(unittest.TestCase):
   def test_rate_limits(self):
     self.app.config['USE_RATE_LIMITS'] = True
 
-    rv, json = self.client.get('/api/v1.0/todos/')
+    rv, _ = self.client.get('/api/v1.0/todos/')
     self.assertTrue(rv.status_code == 200)
     self.assertTrue('X-RateLimit-Remaining' in rv.headers)
     self.assertTrue('X-RateLimit-Limit' in rv.headers)
@@ -153,7 +153,7 @@ class TestTokenAPI(unittest.TestCase):
 
   def test_etag(self):
     # create two todos
-    rv, json = self.client.post(
+    rv, _ = self.client.post(
         '/api/v1.0/todos/', data={
             'name': 'one',
             'task': 'sth'
@@ -212,7 +212,7 @@ class TestTokenAPI(unittest.TestCase):
     self.assertTrue(rv.status_code == 200)
 
   def test_helpers(self):
-    self.assertEquals(convert_url('www.google.com'), 'http://www.google.com')
+    self.assertEqual(convert_url('www.google.com'), 'http://www.google.com')
     with self.assertRaises(ValidationError):
       convert_url('bad url')
 

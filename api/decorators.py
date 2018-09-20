@@ -156,17 +156,17 @@ def etag(f):
         '@etag is only supported for GET requests'
     rv = f(*args, **kwargs)
     rv = make_response(rv)
-    etag = '"' + hashlib.md5(rv.get_data()).hexdigest() + '"'
-    rv.headers['ETag'] = etag
+    etag_str = '"' + hashlib.md5(rv.get_data()).hexdigest() + '"'
+    rv.headers['ETag'] = etag_str
     if_match = request.headers.get('If-Match')
     if_none_match = request.headers.get('If-None-Match')
     if if_match:
       etag_list = [tag.strip() for tag in if_match.split(',')]
-      if etag not in etag_list and '*' not in etag_list:
+      if etag_str not in etag_list and '*' not in etag_list:
         rv = precondition_failed()
     elif if_none_match:
       etag_list = [tag.strip() for tag in if_none_match.split(',')]
-      if etag in etag_list or '*' in etag_list:
+      if etag_str in etag_list or '*' in etag_list:
         rv = not_modified()
     return rv
 
