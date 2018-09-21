@@ -4,8 +4,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/abzcoding/flask-sample/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/abzcoding/flask-sample/?branch=master)
 [![Code Climate](https://codeclimate.com/github/abzcoding/flask-sample/badges/gpa.svg)](https://codeclimate.com/github/abzcoding/flask-sample)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4765cd8e257c21e349e1/test_coverage)](https://codeclimate.com/github/abzcoding/flask-sample/test_coverage)
-[![codebeat badge](https://codebeat.co/badges/060337a1-6cf5-4c79-9b08-1d5447ec15df)](https://codebeat.co/projects/github-com-abzcoding-flask-sample-master)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/abzcoding/flask-sample.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/abzcoding/flask-sample/context:python)
+[![codebeat badge](https://codebeat.co/badges/060337a1-6cf5-4c79-9b08-1d5447ec15df)](https://codebeat.co/projects/github-com-abzcoding-flask-sample-master)
 
 
 Sample RESTful Web Service Using Flask & SQLAlchemy
