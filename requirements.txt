@@ -4,7 +4,7 @@ Flask-Script==2.0.6
 Flask-SQLAlchemy==2.3.2
 Jinja2==2.10
 SQLAlchemy==1.2.11
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 coverage==4.5.1
 httpie==0.9.9
 itsdangerous==0.24
